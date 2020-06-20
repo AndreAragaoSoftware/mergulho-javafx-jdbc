@@ -20,7 +20,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Clínico">
                   <items>
-                    <MenuItem fx:id="menuItemCadastrar" mnemonicParsing="false" onAction="#onMenuItemCadastrarAction" text="Cadastrar" />
+                    <MenuItem fx:id="menuItemCadastrarClinico" mnemonicParsing="false" onAction="#onMenuItemCadastrarClinicoAction" text="Cadastrar" />
                   </items>
                 </Menu>
               </menus>

@@ -9,6 +9,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	//Atributo privado, criado para auxiliar no show About.fxml 
+		private static Scene mainScene;
+
+	
+	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -20,7 +27,7 @@ public class Main extends Application {
 			scrollPane.setFitToHeight(true);
 			scrollPane.setFitToWidth(true);
 
-			Scene mainScene = new Scene(scrollPane);
+			mainScene = new Scene(scrollPane);
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("ORCA DIVING");
 			primaryStage.show();
@@ -28,6 +35,11 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	//metodo vai ser usado na class MainViewController
+		public static Scene getMainScene() {
+			return mainScene;
+		}
 
 	public static void main(String[] args) {
 		launch(args);
