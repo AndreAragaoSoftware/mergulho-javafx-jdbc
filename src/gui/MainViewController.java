@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.FuncaoService;
 
 public class MainViewController implements Initializable {
 
@@ -24,29 +25,54 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemFuncao;
 	@FXML
 	private MenuItem menuItemCadastrarClinico;
-	
+
 	@FXML
 	public void onMenuItemMergulhadorAction() {
 		System.out.println("onMenuItemMergulhadorAction");
 	}
-	
+
 	@FXML
 	public void onMenuItemFuncaoAction() {
-		loadView("/gui/FuncaoList.fxml");
+		// loadView("/gui/FuncaoList.fxml");
+		loadView2("/gui/FuncaoList.fxml");
 	}
-	
+
 	@FXML
 	public void onMenuItemCadastrarClinicoAction() {
-		loadView("/gui/CadastrarClinico.fxml");
+		loadView2("/gui/CadastrarClinico.fxml");
 	}
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 	}
-	
-	private synchronized void loadView(String absoluteName) {
+
+//	private synchronized void loadView(String absoluteName) {
+//		try {
+//			// Instanciando  FXMLLoader para poder abrir nova tela
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+//			VBox newVBox = loader.load();
+//
+//			Scene mainScene = Main.getMainScene();
+//			// o getRoot pega o primeiro elemento da View(no caso o ScrollPane)
+//			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+//
+//			//Primeiro filho do VBox na janela principal(mainMenu)
+//			Node mainMenu = mainVBox.getChildren().get(0);
+//			//limpando todos os filhos do main VBox
+//			mainVBox.getChildren().clear();
+//
+//			//add os mainMenu e o newVBox
+//			mainVBox.getChildren().add(mainMenu);
+//			mainVBox.getChildren().addAll(newVBox.getChildren());
+//		}
+//		catch (IOException e) {
+//			Alerts.showAlert("IOException", "Error loadding view", e.getMessage(), AlertType.ERROR);
+//		}
+//	}
+
+	private synchronized void loadView2(String absoluteName) {
 		try {
-			// Instanciando  FXMLLoader para poder abrir nova tela
+			// Instanciando FXMLLoader para poder abrir nova tela
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
 
@@ -54,16 +80,20 @@ public class MainViewController implements Initializable {
 			// o getRoot pega o primeiro elemento da View(no caso o ScrollPane)
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
-			//Primeiro filho do VBox na janela principal(mainMenu)
+			// Primeiro filho do VBox na janela principal(mainMenu)
 			Node mainMenu = mainVBox.getChildren().get(0);
-			//limpando todos os filhos do main VBox
+			// limpando todos os filhos do main VBox
 			mainVBox.getChildren().clear();
 
-			//add os mainMenu e o newVBox
+			// add os mainMenu e o newVBox
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
-		}
-		catch (IOException e) {
+
+			// associando o funcaoList ao loader
+			FuncaoListController controller = loader.getController();
+			controller.setFuncaoService(new FuncaoService());
+			controller.updateTableView();
+		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Error loadding view", e.getMessage(), AlertType.ERROR);
 		}
 	}
