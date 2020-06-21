@@ -1,17 +1,17 @@
 package model.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import model.dao.DaoFactory;
+import model.dao.FuncaoDao;
 import model.entities.Funcao;
 
 public class FuncaoService {
 	
+	private FuncaoDao dao = DaoFactory.createFuncaoDao();
+	
 	public List<Funcao> findAll(){
-		List<Funcao> list = new ArrayList<>();
-		list.add(new Funcao(1, "Sup. Mergulho"));
-		list.add(new Funcao(2, "Inspetor de Mergulho"));
-		return list;
+		return dao.findAll();
 	}
 
 }
