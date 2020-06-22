@@ -92,8 +92,10 @@ public class FuncaoListController implements Initializable {
 			FuncaoFormController controller = loader.getController();
 			// setando o comtrolador
 			controller.setFuncao(obj);
+			// setando o DepartmentService
+			controller.setFuncaoService(new FuncaoService());
 			// carregar o obj no formulario
-						controller.upDateFormData();
+			controller.upDateFormData();
 
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Funcao data");

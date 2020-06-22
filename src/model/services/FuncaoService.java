@@ -13,5 +13,15 @@ public class FuncaoService {
 	public List<Funcao> findAll(){
 		return dao.findAll();
 	}
+	
+	public void saveOrUpdate(Funcao obj) {
+		//testando se Id é igual a zero
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		}
+		else {
+			dao.update(obj);
+		}
+	}
 
 }
