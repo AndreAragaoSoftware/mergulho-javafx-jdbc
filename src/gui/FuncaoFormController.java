@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Funcao;
+import model.exception.ValidationException;
 import model.services.FuncaoService;
 
 public class FuncaoFormController implements Initializable {
@@ -71,7 +74,10 @@ public class FuncaoFormController implements Initializable {
 			Utils.currentStage(event).close();
 		} catch (DbException e) {
 			Alerts.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
+		} catch (ValidationException e) {
+			setErrorMessages(e.getErrors());
 		}
+
 	}
 
 	// metodo para atulizar a lista de departamento
@@ -83,8 +89,18 @@ public class FuncaoFormController implements Initializable {
 
 	private Funcao getFormData() {
 		Funcao obj = new Funcao();
+		ValidationException exception = new ValidationException("Erro de Validação");
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
+		if (txtName.getText() == null || txtName.getText().trim().equals("")) {
+			exception.addError("name", "Erro no campo name");
+		}
+
 		obj.setName(txtName.getText());
+
+		// testando pra ve se existe pelomenos um erro
+		if (exception.getErrors().size() > 0) {
+			throw exception;
+		}
 
 		return obj;
 
@@ -114,6 +130,15 @@ public class FuncaoFormController implements Initializable {
 		}
 		txtId.setText(String.valueOf(entity.getId()));
 		txtName.setText(entity.getName());
+	}
+
+	// dando um set na labelErrorName caso exista um erro
+	private void setErrorMessages(Map<String, String> errors) {
+		Set<String> fields = errors.keySet();
+
+		if (fields.contains("name")) {
+			labelErrorName.setText(errors.get("name"));
+		}
 	}
 
 }
