@@ -23,5 +23,11 @@ public class FuncaoService {
 			dao.update(obj);
 		}
 	}
+	
+	// metodo para deletar o funcao
+		public void remove(Funcao obj) {
+			dao.deleteById(obj.getId());
+		}
+
 
 }

@@ -3,9 +3,11 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -44,6 +47,9 @@ public class FuncaoListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Funcao, Funcao> tableColumnEDIT;
+	
+	@FXML
+	private TableColumn<Funcao, Funcao> tableColumnREMOVE;
 
 	@FXML
 	private Button btNova;
@@ -86,6 +92,7 @@ public class FuncaoListController implements Initializable, DataChangeListener {
 		obsList = FXCollections.observableArrayList(list);
 		tableViewFuncao.setItems(obsList);
 		initEditButtons();
+		initRemoveButtons();
 	}
 
 	private void createDialogForm(Funcao obj, String absoluteName, Stage parentStage) {
@@ -132,7 +139,7 @@ public class FuncaoListController implements Initializable, DataChangeListener {
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Funcao, Funcao>() {
-			private final Button button = new Button("edit");
+			private final Button button = new Button("Editar");
 
 			@Override
 			protected void updateItem(Funcao obj, boolean empty) {
@@ -143,8 +150,48 @@ public class FuncaoListController implements Initializable, DataChangeListener {
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> createDialogForm(obj, "/gui/FuncaoForm.fxml", Utils.currentStage(event)));
+				event -> createDialogForm(obj, "/gui/FuncaoForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
+	
+	private void initRemoveButtons() {
+		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnREMOVE.setCellFactory(param -> new TableCell<Funcao, Funcao>() {
+			private final Button button = new Button("Apagar");
+
+			@Override
+			protected void updateItem(Funcao obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
+		});
+	}
+
+	// esse metodo tem que ser criado fora do initRemoveButtons()
+	private void removeEntity(Funcao obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Tem certeza que deseja delatar?");
+
+		// comfirmação que o usuario apertou no botão ok
+		if (result.get() == ButtonType.OK) {
+			if (service == null) {
+				throw new IllegalStateException("Serviço é nulo");
+			}
+			try {
+				//excluindo o departamento
+				service.remove(obj);
+				//atualizando a tabela
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao tentar apagar Função", null, e.getMessage(), AlertType.ERROR);
+			}
+
+		}
+	}
+
 }
