@@ -22,10 +22,31 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TextField fx:id="txtId" GridPane.columnIndex="1" />
             <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox prefHeight="100.0" prefWidth="270.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvarAction" prefHeight="30.0" prefWidth="98.0" text="Salvar">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelarAction" prefHeight="26.0" prefWidth="130.0" text="Cancelar">
+                     <HBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
             <Label prefHeight="16.0" prefWidth="61.0" text="Id">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -49,25 +70,5 @@
             </Label>
          </children>
       </GridPane>
-      <HBox layoutX="62.0" layoutY="160.0" prefHeight="100.0" prefWidth="270.0">
-         <children>
-            <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvarAction" text="Salvar">
-               <HBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#onBtCancelarAction" text="Cancelar">
-               <HBox.margin>
-                  <Insets left="70.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
    </children>
 </AnchorPane>

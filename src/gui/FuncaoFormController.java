@@ -107,8 +107,8 @@ public class FuncaoFormController implements Initializable {
 	}
 
 	@FXML
-	public void onBtCancelarAction() {
-		System.out.println("onBtCancelarAction");
+	public void onBtCancelarAction(ActionEvent event) {
+		Utils.currentStage(event).close();
 	}
 
 	@Override
