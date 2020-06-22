@@ -10,6 +10,7 @@ import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +25,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Funcao;
 import model.services.FuncaoService;
-import javafx.event.ActionEvent;
 
 public class FuncaoListController implements Initializable {
 
@@ -47,7 +47,8 @@ public class FuncaoListController implements Initializable {
 	@FXML
 	public void onBtNovaAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/FuncaoForm.fxml", parentStage);
+		Funcao obj = new Funcao();
+		createDialogForm(obj, "/gui/FuncaoForm.fxml", parentStage);
 	}
 
 	public void setFuncaoService(FuncaoService service) {
@@ -80,15 +81,22 @@ public class FuncaoListController implements Initializable {
 		tableViewFuncao.setItems(obsList);
 	}
 
-	private void createDialogForm(String absoluteName, Stage parentStage) {
+	private void createDialogForm(Funcao obj, String absoluteName, Stage parentStage) {
 		try {
 			// Instanciando FXMLLoader para poder abrir nova tela
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			// carregando o pane
 			Pane pane = loader.load();
+			
+			// pegou o controller da tela que foi carregada acima
+			FuncaoFormController controller = loader.getController();
+			// setando o comtrolador
+			controller.setFuncao(obj);
+			// carregar o obj no formulario
+						controller.upDateFormData();
 
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Enter Department data");
+			dialogStage.setTitle("Enter Funcao data");
 			dialogStage.setScene(new Scene(pane));
 			// não pode ser rederizada
 			dialogStage.setResizable(false);

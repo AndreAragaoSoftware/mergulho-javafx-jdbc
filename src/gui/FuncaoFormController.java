@@ -9,9 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Funcao;
 
 public class FuncaoFormController implements Initializable {
 
+	private Funcao entity;
+	
+	
 	@FXML
 	private TextField txtId;
 	@FXML
@@ -22,6 +26,10 @@ public class FuncaoFormController implements Initializable {
 	private Button btSalvar;
 	@FXML
 	private Button btCancelar;
+	
+	public void setFuncao(Funcao entity) {
+		this.entity = entity;
+	}
 	
 	@FXML
 	public void onBtSalvarAction() {
@@ -45,5 +53,13 @@ public class FuncaoFormController implements Initializable {
 			// o txtName só pode ter no maximo 60 caracters
 			Constraints.setTextFieldMaxLength(txtName, 60);
 		}
+		
+	public void upDateFormData() {
+		if (entity == null) {
+			throw new IllegalStateException("Entity é nula");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtName.setText(entity.getName());
+	}	
 
 }
