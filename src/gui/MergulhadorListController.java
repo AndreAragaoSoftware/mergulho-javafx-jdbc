@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -23,6 +26,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Mergulhador;
 import model.services.MergulhadorService;
@@ -50,6 +55,7 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 	public void onBtAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Mergulhador obj = new Mergulhador();
+		createDialogForm(obj, "/gui/MergulhadorForm.fxml", parentStage);
 	}
 
 	public void setMergulhadorService(MergulhadorService service) {
@@ -87,41 +93,41 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 		// chamando o metodo de remoção
 		initRemoveButtons();
 	}
-
-//		private void createDialogForm(Mergulhador obj, String absoluteName, Stage parentStage) {
-//			try {
-//				// Instanciando FXMLLoader para poder abrir nova tela
-//				FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//				// carregando o pane
-//				Pane pane = loader.load();
-	//
-//				// pegou o controller da tela que foi carregada acima
-//				MergulhadorFormController controller = loader.getController();
-//				// setando o comtrolador
-//				controller.setMergulhador(obj);
-//				// setando o MergulhadorService
-//				controller.setMergulhadorService(new MergulhadorService());
-//				// evento que faz a atualização da lista quando adcionado um novo departamento
-//				controller.subscribeDataChangeListener(this);
-//				// carregar o obj no formulario
-//				controller.upDateFormData();
-	//
-//				Stage dialogStage = new Stage();
-//				dialogStage.setTitle("Enter Mergulhador data");
-//				dialogStage.setScene(new Scene(pane));
-//				// não pode ser rederizada
-//				dialogStage.setResizable(false);
-//				// chamando o palco
-//				dialogStage.initOwner(parentStage);
-//				// só pode fazer outra coisa se for fechada
-//				dialogStage.initModality(Modality.WINDOW_MODAL);
-//				dialogStage.showAndWait();
-	//
-//			} catch (IOException e) {
-//				Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-//			}
-//		}
 	
+	private void createDialogForm(Mergulhador obj, String absoluteName, Stage parentStage) {
+		try {
+			// Instanciando FXMLLoader para poder abrir nova tela
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			// carregando o pane
+			Pane pane = loader.load();
+
+			// pegou o controller da tela que foi carregada acima
+			MergulhadorFormController controller = loader.getController();
+			// setando o comtrolador
+			controller.setMergulhador(obj);
+			// setando o MergulhadorService
+			controller.setMergulhadorService(new MergulhadorService());
+			// evento que faz a atualização da lista quando adcionado um novo departamento
+			controller.subscribeDataChangeListener(this);
+			// carregar o obj no formulario
+			controller.upDateFormData();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Enter Mergulhador data");
+			dialogStage.setScene(new Scene(pane));
+			// não pode ser rederizada
+			dialogStage.setResizable(false);
+			// chamando o palco
+			dialogStage.initOwner(parentStage);
+			// só pode fazer outra coisa se for fechada
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+		}
+	}
+
 	@Override
 	public void onDataChanged() {
 		// Aparti do momento que esse evento for disparado ele vai atualizar
