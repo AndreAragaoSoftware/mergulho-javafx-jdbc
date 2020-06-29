@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Mergulhador;
+import model.services.FuncaoService;
 import model.services.MergulhadorService;
 
 public class MergulhadorListController implements Initializable, DataChangeListener {
@@ -106,7 +107,8 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 			// setando o comtrolador
 			controller.setMergulhador(obj);
 			// setando o MergulhadorService
-			controller.setMergulhadorService(new MergulhadorService());
+			controller.setMergulhadorService(new MergulhadorService(), new FuncaoService());
+			controller.loadAssociatedObjects();
 			// evento que faz a atualização da lista quando adcionado um novo departamento
 			controller.subscribeDataChangeListener(this);
 			// carregar o obj no formulario
@@ -124,6 +126,7 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
