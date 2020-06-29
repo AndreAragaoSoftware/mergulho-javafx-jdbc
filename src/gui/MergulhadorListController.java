@@ -151,8 +151,8 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 					return;
 				}
 				setGraphic(button);
-//					button.setOnAction(
-//							event -> createDialogForm(obj, "/gui/MergulhadorForm.fxml", Utils.currentStage(event)));
+				button.setOnAction(
+				event -> createDialogForm(obj, "/gui/MergulhadorForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}

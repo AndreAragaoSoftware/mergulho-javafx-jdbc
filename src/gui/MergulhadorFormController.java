@@ -120,6 +120,9 @@ public class MergulhadorFormController implements Initializable {
 			exception.addError("name", "Fiel can't be empty");
 		}
 		obj.setName(txtName.getText());
+		
+		// relacionando a função
+		obj.setFuncao(comboBoxFuncao.getValue());
 
 		// testando pra ve se existe pelomenos um erro
 		if (exception.getErrors().size() > 0) {
