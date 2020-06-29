@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.FuncaoService;
+import model.services.MergulhadorService;
 
 public class MainViewController implements Initializable {
 
@@ -29,7 +30,12 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemMergulhadorAction() {
-		System.out.println("onMenuItemMergulhadorAction");
+		// o segundo parametro em azul é a ação de inicialiazação do controller 
+		// basicamente pega o as informações e atualiza a tableView
+		loadView("/gui/MergulhadorList.fxml", (MergulhadorListController controller) -> {
+			controller.setMergulhadorService(new MergulhadorService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
