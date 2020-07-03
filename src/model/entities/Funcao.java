@@ -61,7 +61,7 @@ public class Funcao implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Funcao [id=" + id + ", name=" + name + "]";
+		return  name ;
 	}
 	
 	

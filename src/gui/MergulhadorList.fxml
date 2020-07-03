@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="467.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MergulhadorListController">
+<VBox prefHeight="467.0" prefWidth="509.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MergulhadorListController">
    <children>
       <Label text="Resistro de Mergulhador">
          <font>
@@ -27,7 +27,8 @@
       <TableView fx:id="tableViewMergulhador" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="tableColumnName" prefWidth="193.0" text="Nome" />
+          <TableColumn fx:id="tableColumnName" prefWidth="186.0" text="Nome" />
+            <TableColumn fx:id="tableColumnFuncao" prefWidth="82.0" text="Funcão" />
             <TableColumn fx:id="tableColumnEDIT" />
             <TableColumn fx:id="tableColumnREMOVE" prefWidth="79.0" />
         </columns>

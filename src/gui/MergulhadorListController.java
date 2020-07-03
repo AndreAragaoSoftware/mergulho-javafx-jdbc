@@ -29,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.entities.Funcao;
 import model.entities.Mergulhador;
 import model.services.FuncaoService;
 import model.services.MergulhadorService;
@@ -47,6 +48,8 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 	private TableColumn<Mergulhador, Mergulhador> tableColumnEDIT;
 	@FXML
 	private TableColumn<Mergulhador, Mergulhador> tableColumnREMOVE;
+	@FXML
+	private TableColumn<Funcao, String> tableColumnFuncao;
 	@FXML
 	private Button btNew;
 
@@ -72,6 +75,7 @@ public class MergulhadorListController implements Initializable, DataChangeListe
 		// padrão para iniciar o comportamento das colunas
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColumnFuncao.setCellValueFactory(new PropertyValueFactory<>("funcao"));
 
 		// macete para que a tableView acompanhe a janela
 		Stage stage = (Stage) Main.getMainScene().getWindow();
