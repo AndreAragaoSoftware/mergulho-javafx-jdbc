@@ -17,6 +17,9 @@ public class AferirSaude implements Serializable {
 	private Boolean sintomas;
 	
 	private Mergulhador mergulhador;
+	
+	public AferirSaude() {
+	}
 
 	public AferirSaude(Integer id, Double pressaoArterialSistolica, Double pressaoArterialDiastolica, Double pulsacao,
 			Double temperaturaCorporal, Double imc, Date dataAfericao, Boolean sintomas, Mergulhador mergulhador) {

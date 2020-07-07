@@ -1,6 +1,7 @@
 package model.dao;
 
 import db.DB;
+import model.dao.impl.AferirSaudeDaoJDBC;
 import model.dao.impl.FuncaoDaoJDBC;
 import model.dao.impl.MergulhadorDaoJDBC;
 
@@ -12,5 +13,9 @@ public class DaoFactory {
 	
 	public static MergulhadorDao createMergulhadorDao() {
 		return new MergulhadorDaoJDBC(DB.getConnection());
+	}
+	
+	public static AferirSaudeDao createAferirSaudeDao() {
+		return new AferirSaudeDaoJDBC(DB.getConnection());
 	}
 }
