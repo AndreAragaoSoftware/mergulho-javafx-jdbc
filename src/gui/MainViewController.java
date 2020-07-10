@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.AferirSaudeService;
 import model.services.FuncaoService;
 import model.services.MergulhadorService;
 
@@ -26,7 +27,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemFuncao;
 	@FXML
-	private MenuItem menuItemCadastrarClinico;
+	private MenuItem menuItemAferirSaude;
 
 	@FXML
 	public void onMenuItemMergulhadorAction() {
@@ -49,8 +50,12 @@ public class MainViewController implements Initializable {
 	}
 
 	@FXML
-	public void onMenuItemCadastrarClinicoAction() {
-		loadView("/gui/CadastrarClinico.fxml", x -> {});
+	public void onMenuItemAferirSaudeAction() {
+		loadView("/gui/AferirSaudeList.fxml", (AferirSaudeListController controller) -> {
+			controller.setAferirSaudeService(new AferirSaudeService());
+			controller.updateTableView();
+		});
+		;
 	}
 
 	@Override
