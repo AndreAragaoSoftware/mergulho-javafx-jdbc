@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="460.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AferirSaudeListController">
+<VBox prefHeight="460.0" prefWidth="953.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AferirSaudeListController">
    <children>
       <Label text="Aferição de Saude">
          <padding>
@@ -21,19 +21,22 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Nova" />
+          <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="Nova" />
         </items>
       </ToolBar>
       <TableView fx:id="tableViewAferirSaude" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="52.0" text="Id" />
+            <TableColumn fx:id="tableColumnDataAfericao" prefWidth="88.0" text="Data " />
+            <TableColumn fx:id="tableColumnMergulhadorId" prefWidth="102.0" text="Mergulhador" />
           <TableColumn fx:id="tableColumnPressaoArterialSistolica" prefWidth="98.0" text="Pressão Artetial Sistolica" />
             <TableColumn fx:id="tableColumnPressaoArterialDiastolica" prefWidth="75.0" text="Pressão Arterial Diastolica" />
             <TableColumn fx:id="tableColumnPulsacao" prefWidth="75.0" text="Pulsação" />
-            <TableColumn fx:id="tableColumnTemperaturaCorporal" prefWidth="75.0" text="Temperatura Cprporal" />
-            <TableColumn fx:id="tableColumnImc" prefWidth="75.0" text="IMC" />
-            <TableColumn fx:id="tableColumnDataAfericao" prefWidth="75.0" text="Data " />
-            <TableColumn fx:id="tableColumnSintomas" prefWidth="75.0" text="Sintomas" />
+            <TableColumn fx:id="tableColumnTemperaturaCorporal" prefWidth="129.0" text="Temperatura Cprporal" />
+            <TableColumn fx:id="tableColumnImc" prefWidth="60.0" text="IMC" />
+            <TableColumn fx:id="tableColumnSintomas" prefWidth="77.0" text="Sintomas" />
+            <TableColumn fx:id="tableColumnEDIT" prefWidth="92.0" text="Editar" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="83.0" text="Remover" />
         </columns>
       </TableView>
    </children>

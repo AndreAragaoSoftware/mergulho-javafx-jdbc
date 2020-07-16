@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.AferirSaude;
+import model.entities.Mergulhador;
 import model.services.AferirSaudeService;
 import model.services.MergulhadorService;
 
@@ -59,6 +60,8 @@ public class AferirSaudeListController implements Initializable, DataChangeListe
 	@FXML
 	private TableColumn<AferirSaude, Boolean> tableColumnSintomas;
 	@FXML
+	private TableColumn<Mergulhador, String> tableColumnMergulhadorId;
+	@FXML
 	private TableColumn<AferirSaude, AferirSaude> tableColumnEDIT;
 	@FXML
 	private TableColumn<AferirSaude, AferirSaude> tableColumnREMOVE;
@@ -72,7 +75,7 @@ public class AferirSaudeListController implements Initializable, DataChangeListe
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		AferirSaude obj = new AferirSaude();
-		createDialogForm(obj, "/gui/AferirSuadeForm.fxml", parentStage);
+		createDialogForm(obj, "/gui/AferirSaudeForm.fxml", parentStage);
 	}
 	
 	public void setAferirSaudeService(AferirSaudeService service) {
@@ -127,13 +130,20 @@ public class AferirSaudeListController implements Initializable, DataChangeListe
 		// model.entities
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnPressaoArterialSistolica.setCellValueFactory(new PropertyValueFactory<>("pressaoArterialSistolica"));
+		Utils.formatTableColumnDouble(tableColumnPressaoArterialSistolica, 2);
 		tableColumnPressaoArterialDiastolica.setCellValueFactory(new PropertyValueFactory<>("pressaoArterialDiastolica"));
+		Utils.formatTableColumnDouble(tableColumnPressaoArterialDiastolica, 2);
 		tableColumnPulsacao.setCellValueFactory(new PropertyValueFactory<>("pulsacao"));
+		Utils.formatTableColumnDouble(tableColumnPulsacao, 2);
 		tableColumnTemperaturaCorporal.setCellValueFactory(new PropertyValueFactory<>("temperaturaCorporal"));
+		Utils.formatTableColumnDouble(tableColumnTemperaturaCorporal, 1);
 		tableColumnImc.setCellValueFactory(new PropertyValueFactory<>("imc"));
+		Utils.formatTableColumnDouble(tableColumnImc, 2);
+		tableColumnDataAfericao.setCellValueFactory(new PropertyValueFactory<>("dataAfericao"));
 		Utils.formatTableColumnDate(tableColumnDataAfericao, "dd/MM/yyyy");
-
-		Utils.formatTableColumnDouble(tableColumnPressaoArterialSistolica, 1);
+		tableColumnSintomas.setCellValueFactory(new PropertyValueFactory<>("sintomas"));
+		
+		tableColumnMergulhadorId.setCellValueFactory(new PropertyValueFactory<>("mergulhador"));
 
 		// macete para que a tableView acompanhe a janela
 		Stage stage = (Stage) Main.getMainScene().getWindow();

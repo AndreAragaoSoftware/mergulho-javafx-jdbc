@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -23,13 +24,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.util.Callback;
 import model.entities.AferirSaude;
 import model.entities.Mergulhador;
@@ -62,7 +64,11 @@ public class AferirSaudeFormController implements Initializable {
 	@FXML
 	private DatePicker dpDataAfericao;
 	@FXML
-	private CheckBox txtSintomas;
+	private RadioButton rbSintomasSim;
+	@FXML
+	private RadioButton rbSinomasNao;
+	@FXML 
+	private ToggleGroup grupo;
 	@FXML
 	private ComboBox<Mergulhador> comboBoxMergulhador;
 	@FXML
@@ -75,6 +81,8 @@ public class AferirSaudeFormController implements Initializable {
 	private Label labelErrorTC;
 	@FXML
 	private Label labelErrorImc;
+	@FXML
+	private Label labelErrorSintomas;
 	@FXML
 	private Label labelErrorData;
 	@FXML
@@ -123,6 +131,13 @@ public class AferirSaudeFormController implements Initializable {
 
 	}
 	
+	@FXML
+	public void onBtCancelAction(ActionEvent event) {
+		// Fechar a janela
+		Utils.currentStage(event).close();
+	}
+	
+	
 	// metodo para atulizar a lista 
 		private void notifyDataChangeListeners() {
 			for (DataChangeListener listener : dataChangeListeners) {
@@ -163,12 +178,12 @@ public class AferirSaudeFormController implements Initializable {
 			if (txtTemperaturaCorporal.getText() == null || txtTemperaturaCorporal.getText().trim().equals("")) {
 				exception.addError("temperaturaCorporal", "O campo não pode estar vazio");
 			}
-			obj.setPulsacao(Utils.tryParseToDouble(txtTemperaturaCorporal.getText()));;
+			obj.setTemperaturaCorporal(Utils.tryParseToDouble(txtTemperaturaCorporal.getText()));;
 			
 			if (txtImc.getText() == null || txtImc.getText().trim().equals("")) {
 				exception.addError("imc", "O campo não pode estar vazio");
 			}
-			obj.setPulsacao(Utils.tryParseToDouble(txtImc.getText()));
+			obj.setImc(Utils.tryParseToDouble(txtImc.getText()));
 			
 			if(dpDataAfericao.getValue() == null) {
 				exception.addError("dataAfericao", "O campo não pode estar vazio");
@@ -178,7 +193,14 @@ public class AferirSaudeFormController implements Initializable {
 				obj.setDataAfericao(Date.from(instant));
 			}
 			
-			obj.setSintomas(Utils.tryParseToBoolean(txtSintomas.getText()));
+			RadioButton rbButton = (RadioButton) grupo.getSelectedToggle();
+			
+			if (rbButton.getText() == null || rbButton.getText().trim().equals(""))  {
+				// foi add um erro caso o campo estiver vazio
+				exception.addError("sintomas", "O campo não pode estar vazio");
+			}
+			
+			obj.setSintomas(rbButton.getText());
 			
 			obj.setMergulhador(comboBoxMergulhador.getValue());
 			
@@ -210,18 +232,23 @@ public class AferirSaudeFormController implements Initializable {
 			}
 			// valueOf foi pra converter o id para String
 			txtId.setText(String.valueOf(entity.getId()));
+			Locale.setDefault(Locale.US);
 			txtPressaoArterialSistolica.setText(String.format("%.2f", entity.getPressaoArterialSistolica()));
 			txtPressaoarterialDiastolica.setText(String.format("%.2f", entity.getPressaoArterialDiastolica()));
 			txtPulsacao.setText(String.format("%.2f", entity.getPulsacao()));
-			txtTemperaturaCorporal.setText(String.format("%.2f", entity.getTemperaturaCorporal()));
+			txtTemperaturaCorporal.setText(String.format("%.1f", entity.getTemperaturaCorporal()));
 			txtImc.setText(String.format("%.2f", entity.getImc()));
 			
 			if (entity.getDataAfericao() != null) {
 				// Esse formato permite que o programa capture a data da maquina do usuario
 				dpDataAfericao.setValue(LocalDate.ofInstant(entity.getDataAfericao().toInstant(), ZoneId.systemDefault()));
 			}
-			
-			txtSintomas.setText(String.valueOf(entity.getSintomas()));
+			if(entity.getSintomas() == "Sim") {
+				rbSintomasSim.setSelected(true);
+			}
+			else {
+				rbSinomasNao.setSelected(true);
+			}
 			
 			// testando se o mergulhador é novo
 			if (entity.getMergulhador() == null) {
@@ -250,6 +277,7 @@ public class AferirSaudeFormController implements Initializable {
 			labelErrorTC.setText((fields.contains("temperaturaCorporal") ? errors.get("temperaturaCorporal") : ""));
 			labelErrorImc.setText((fields.contains("imc") ? errors.get("imc") : ""));
 			labelErrorData.setText((fields.contains("dataAfericao") ? errors.get("dataAfericao") : ""));
+			labelErrorSintomas.setText((fields.contains("sintomas") ? errors.get("sintomas") : ""));
 		}
 
 	

@@ -72,7 +72,7 @@ public class Mergulhador implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Mergulhador [id=" + id + ", name=" + name + ", funcao=" + funcao + "]";
+		return name;
 	}
 	
 	

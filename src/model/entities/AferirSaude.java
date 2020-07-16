@@ -14,7 +14,7 @@ public class AferirSaude implements Serializable {
 	private Double temperaturaCorporal;
 	private Double imc;
 	private Date dataAfericao;
-	private Boolean sintomas;
+	private String sintomas;
 	
 	private Mergulhador mergulhador;
 	
@@ -22,7 +22,7 @@ public class AferirSaude implements Serializable {
 	}
 
 	public AferirSaude(Integer id, Double pressaoArterialSistolica, Double pressaoArterialDiastolica, Double pulsacao,
-			Double temperaturaCorporal, Double imc, Date dataAfericao, Boolean sintomas, Mergulhador mergulhador) {
+			Double temperaturaCorporal, Double imc, Date dataAfericao, String sintomas, Mergulhador mergulhador) {
 		super();
 		this.id = id;
 		this.pressaoArterialSistolica = pressaoArterialSistolica;
@@ -91,11 +91,11 @@ public class AferirSaude implements Serializable {
 		this.dataAfericao = dataAfericao;
 	}
 
-	public Boolean getSintomas() {
+	public String getSintomas() {
 		return sintomas;
 	}
 
-	public void setSintomas(Boolean sintomas) {
+	public void setSintomas(String sintomas) {
 		this.sintomas = sintomas;
 	}
 

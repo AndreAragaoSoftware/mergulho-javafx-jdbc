@@ -152,9 +152,9 @@ public class MergulhadorDaoJDBC implements MergulhadorDao {
 		try {
 			st = conn.prepareStatement(
 					"SELECT mergulhador.*,funcao.Name as DepName "
-					+ "FROM mergulhador INNER JOIN funcao "
-					+ "ON mergulhador.FuncaoId = funcao.Id "
-					+ "ORDER BY Name");
+							+ "FROM mergulhador INNER JOIN funcao "
+							+ "ON mergulhador.FuncaoId = funcao.Id "
+							+ "ORDER BY Name");
 
 			rs = st.executeQuery();
 

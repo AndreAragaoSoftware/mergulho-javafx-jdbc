@@ -43,7 +43,7 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 			st.setDouble(5, obj.getImc());
 			;
 			st.setDate(6, new java.sql.Date(obj.getDataAfericao().getTime()));
-			st.setBoolean(7, obj.getSintomas());
+			st.setString(7, obj.getSintomas());
 			st.setInt(8, obj.getMergulhador().getId());
 
 			int rowsAffected = st.executeUpdate();
@@ -85,7 +85,7 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 			st.setDouble(5, obj.getImc());
 			;
 			st.setDate(6, new java.sql.Date(obj.getDataAfericao().getTime()));
-			st.setBoolean(7, obj.getSintomas());
+			st.setString(7, obj.getSintomas());
 			st.setInt(8, obj.getMergulhador().getId());
 
 			st.executeUpdate();
@@ -120,8 +120,10 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT aferirsaude.*,mergulhador.Name as DepName " + "FROM aferirsaude INNER JOIN mergulhador "
-							+ "ON aferirsaude.MergulhadorId = mergulhador.Id " + "WHERE aferirsaude.Id = ?");
+					"SELECT aferirsaude.*,mergulhador.Name as DepName " 
+			+ "FROM aferirsaude INNER JOIN mergulhador "
+			+ "ON aferirsaude.MergulhadorId = mergulhador.Id " 
+			+ "WHERE aferirsaude.Id = ?");
 
 			st.setInt(1, id);
 			rs = st.executeQuery();
@@ -147,15 +149,15 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 		obj.setPulsacao(rs.getDouble("Pulsacao"));
 		obj.setTemperaturaCorporal(rs.getDouble("TemperaturaCorporal"));
 		obj.setImc(rs.getDouble("Imc"));
-		obj.setDataAfericao(rs.getDate("DataAfericao"));
-		obj.setSintomas(rs.getBoolean("Sintomas"));
+		obj.setDataAfericao(new java.util.Date(rs.getTimestamp("DataAfericao").getTime()));
+		obj.setSintomas(rs.getString("Sintomas"));
 		obj.setMergulhador(dep);
 		return obj;
 	}
 
 	private Mergulhador instantiateMergulhador(ResultSet rs) throws SQLException {
 		Mergulhador dep = new Mergulhador();
-		dep.setId(rs.getInt("MergulhadortId"));
+		dep.setId(rs.getInt("MergulhadorId"));
 		dep.setName(rs.getString("DepName"));
 		return dep;
 	}
@@ -166,8 +168,10 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT aferirsuade.*,mergulhador.Name as DepName " + "FROM aferirsuade INNER JOIN mergulhador "
-							+ "ON aferirsuade.MergulhadorId = mergulhador.Id " + "ORDER BY Name");
+					"SELECT aferirsaude.*,mergulhador.Name as DepName "
+							+ "FROM aferirsaude INNER JOIN mergulhador "
+							+ "ON aferirsaude.MergulhadorId = mergulhador.Id "
+							+ "ORDER BY DataAfericao");
 
 			rs = st.executeQuery();
 
@@ -187,9 +191,11 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 				list.add(obj);
 			}
 			return list;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		} finally {
+		} 
+		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -201,8 +207,10 @@ public class AferirSaudeDaoJDBC implements AferirSaudeDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement("SELECT aferirsuade.*,mergulhador.Name as DepName "
-					+ "FROM aferirsuade INNER JOIN mergulhador " + "ON aferirsuade.MergulhadorId = mergulhador.Id "
-					+ "WHERE MergulhadorId = ? " + "ORDER BY Name");
+					+ "FROM aferirsuade INNER JOIN mergulhador " 
+					+ "ON aferirsuade.MergulhadorId = mergulhador.Id "
+					+ "WHERE MergulhadorId = ? " 
+					+ "ORDER BY Name");
 
 			st.setInt(1, mergulhador.getId());
 
